@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 const express = require("express");
-const secret = require("./secret");
+const secret = require("./password");
 const db = mysql.createConnection({
   host: secret.host,
   user: secret.user,
