@@ -1,24 +1,37 @@
 const express = require("express");
 const app = express();
+const session = require("express-session");
 const api = require("./api");
+const bodyParser = require("body-parser");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", api);
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
+app.use(
+  session({
+    secret: "secretkey", //암호화 키
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      domain: "localhost",
+      path: "/",
+      maxAge: 1 * 60 * 60 * 24,
+      sameSite: "None",
+      secure: true,
+    },
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("connected");
 });
 
 module.exports = app;
-
-/**
- * bbsID(int) : 게시글 번호
- * bbsTitle(varchar) : 게시글 제목
- * userID(int) : 게시글 작성한 사람 id
- * bbsAvailable(varchar) =>인트로 수정예정 : 게시글 열람가능 여부
- * bbsDate(datetime) : 게시글 작성 날짜
- * bbsContent(varchar) : 게시글 내용
- */
 
 /** 참고사항
  * 해당 버전에는 body-parser가 express안에 내장되어있음
