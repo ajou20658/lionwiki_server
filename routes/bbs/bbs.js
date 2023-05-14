@@ -9,24 +9,6 @@ const db = mysql.createConnection({
 });
 router = express.Router();
 
-router.post("/", (req, res) => {
-  const bbsTitle = req.body.title;
-  const userID = req.body.user;
-  const bbsContent = req.body.content;
-  const values = [bbsTitle, userID, 1, new Date(), bbsContent];
-  var sql =
-    "INSERT INTO bbs(bbsTitle,userID,bbsAvailable,bbsDate,bbsContent) VALUES(?,?,?,?,?)";
-  db.query(sql, values, function (err, result) {
-    if (err) {
-      console.log("error: ", err);
-      res.status(500).send("Server error");
-      return;
-    }
-    console.log("bbs inserted");
-    res.status(200).send("bbs inserted");
-  });
-}); //create
-
 // router.get("/", (req, res) => {
 //   db.query("SELECT * FROM wikibbs.bbs", (err, data) => {
 //     if (err) {
@@ -61,20 +43,6 @@ router.get("/:title", (req, res) => {
     } else {
       console.log(data);
       res.json(data);
-    }
-  });
-});
-
-router.patch("/", (req, res) => {
-  const { bbsID, bbsTitle, userID, bbsContent } = req.body;
-  var sql = `UPDATE bbs SET bbsTitle = ${bbsTitle} AND userID = ${userID} AND bbsContent = ${bbsContent} WHERE bbsID=${bbsID};`;
-  db.query(sql, function (err, data) {
-    if (err) {
-      console.log("patch err");
-      res.status(500);
-    } else {
-      console.log(data.json());
-      res.status(200);
     }
   });
 });
