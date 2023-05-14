@@ -1,0 +1,140 @@
+.title {
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.header {
+  background-color: #f5f8fa;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10px 20px 20px;
+  box-sizing: border-box;
+}
+
+.buttonContainer a {
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  align-items: center;
+  cursor: pointer;
+  height: 35px;
+  text-align: center;
+  padding: 5px 10px;
+  background-color: white;
+  border: 1px solid #cccccc;
+  text-decoration: none;
+  color: black;
+}
+
+.buttonFirst {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.buttonLast {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.time {
+  margin-top: 18px;
+  text-align: right;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.body {
+  padding: 16px 10px 10px 10px;
+  white-space: pre-wrap;
+  box-sizing: border-box;
+}
+
+.flex {
+  display: flex;
+}
+
+.textarea {
+  flex: 1;
+  height: 20rem;
+}
+
+.saveBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+.saveBtn {
+  background-color: blue;
+  color: white;
+}
+
+ul a {
+  color: blue;
+}
+
+.historyList li {
+  list-style: circle;
+}
+
+#red {
+  color: white;
+  background-color: #d9534f;
+}
+
+.loginTitle {
+  background-color: white;
+}
+
+.loginBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginBodyContainer {
+  margin: 0 auto;
+}
+
+.loginInput {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginInput input {
+  width: 400px;
+  height: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.loginSecondLine {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.loginBtn {
+  display: flex;
+  justify-content: end;
+  cursor: pointer;
+}
+
+.loginBtn a {
+  text-decoration: none;
+  border: 1px solid #cccccc;
+  color: black;
+  margin-right: 10px;
+  padding: 5px 5px;
+  font-size: 15px;
+}
+
+.loginBtn button {
+  background-color: #0275d8;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+  font-size: 15px;
+}

@@ -1,0 +1,67 @@
+.bgcccc{
+    background-color: #CCCCCC;
+
+}
+
+.container{
+    max-width: 1300px;
+    height : 43rem;
+    padding : 20px;
+    padding-top : 70px;
+    border-radius: 5px;
+    margin : 0 auto;
+    display : flex;
+    box-sizing: border-box;
+   
+}
+
+.body{
+    width: 1000px;
+    box-sizing: border-box;
+    border : 1px solid #CCCCCC;
+    margin-right : 15px;
+    background-color: white;
+}
+
+.change{
+    box-sizing: border-box;
+    border : 1px solid #CCCCCC;
+    width : 13rem;
+    background-color: white;
+    box-sizing: border-box;
+    
+}
+
+.change a{
+    color : blue
+}
+
+.changeTitle{
+    font-size: 22px;
+    font-weight: bold;
+    padding : 20px;
+}
+
+.change li{
+    display : flex;
+    justify-content: space-between;
+    padding : 10px 10px;
+    border : 1px solid #CCCCCC;
+}
+
+.change li:hover{
+    background-color: darkgray;
+}
+
+.more{
+   
+    text-align: end;
+}
+
+.more:hover{
+    background-color: #CCCCCC;
+    text-decoration: underline;
+   
+}
+
+
