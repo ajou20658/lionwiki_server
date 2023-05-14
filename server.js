@@ -1,10 +1,23 @@
 const express = require("express");
-const app = express();
 const session = require("express-session");
-const api = require("./api");
+const memstore = require("memorystore")(session);
+const cors = require("cors");
+const app = express();
+const api = require("./routes/api");
 const bodyParser = require("body-parser");
+const PORT = process.env.PORT || 3001;
+// const sessionOBJ = {
+//   secret: process.env.SESSION_SECRET, //암호화 키
+//   resave: false,
+//   saveUninitialized: true,
+//   store: new memstore({ checkPeriod: 60 * 1000 }),
+//   cookie: {
+//     maxAge: 60 * 1000,
+//   },
+// };
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use("/api", api);
 app.use(bodyParser.json());
 app.use(
@@ -12,26 +25,14 @@ app.use(
     extended: false,
   })
 );
-app.use(
-  session({
-    secret: "secretkey", //암호화 키
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      domain: "localhost",
-      path: "/",
-      maxAge: 1 * 60 * 60 * 24,
-      sameSite: "None",
-      secure: true,
-    },
-  })
-);
+// app.use(session({ sessionOBJ }));
 
 app.get("/", (req, res) => {
   res.send("connected");
 });
-
-module.exports = app;
+app.listen(PORT, () => {
+  console.log(`Listening on:http://localhost:${PORT}`);
+});
 
 /** 참고사항
  * 해당 버전에는 body-parser가 express안에 내장되어있음

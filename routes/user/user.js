@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 const express = require("express");
-const secret = require("./password");
+const secret = require("../secret.json");
 //const pwreset = require("./password-reset");
 const db = mysql.createConnection({
   host: secret.host,
@@ -8,6 +8,7 @@ const db = mysql.createConnection({
   password: secret.password,
   database: secret.database,
 });
+//crud
 router = express.Router();
 /**
  * userID int
@@ -15,6 +16,7 @@ router = express.Router();
  * userPassword varchar
  * userEmail varchar
  */
+//아이디 찾기 - body에 이메일 넣어서 보내기
 router.get("/idfind", (req, res) => {
   //console.log(req.params);
   const email = req.body.email;
@@ -46,10 +48,11 @@ router.get("/idfind", (req, res) => {
 //     }
 //   });
 // });
+//u
 router.patch("/pwreset", (req, res) => {
   const target = req.body.userID;
-  const password = req.body.userPassword;
-  const sql = `UPDATE user SET userPassword = ${password} WHERE userID=${target};`;
+  const changepassword = req.body.userChangepw;
+  const sql = `UPDATE user SET userPassword = ${changepassword} WHERE userID=${target};`;
   db.query(sql, function (err, data) {
     if (err) {
       res.status(500).send("Server error");
@@ -60,33 +63,38 @@ router.patch("/pwreset", (req, res) => {
     }
   });
 });
-router.DELETE("/delete", (req, res) => {
-  const userPassword = req.body;
-  //const session = req.cookies.set-session;
-  const sql = `DELETE FROM user WHERE userPassword = ${userPassword}`;
-  db.query(sql, function (err, data) {
-    if (err) {
-      res.status(500).send("Server error");
-    } else {
-      res.status(200).send("DELETED");
-    }
-  });
-});
-// router.post("/", (req, res) => {
-//   const userName = req.body.name;
-//   const userPassword = req.body.password;
-//   const userEmail = req.body.email;
-//   const values = [userName, userPassword, userEmail];
-//   var sql = "INSERT INTO user(userName,userPassword,userEmail) VALUES(?,?,?);";
-//   db.query(sql, values, function (err, result) {
+//d 삭제는 게시글 삭제? 혹은 게시글 소유자 변경필요
+// router.DELETE("/delete", (req, res) => {
+//   const userPassword = req.body;
+//   //const session = req.cookies.set-session;
+//   const sql = `DELETE FROM user WHERE userPassword = ${userPassword}`;
+//   db.query(sql, function (err, data) {
 //     if (err) {
-//       console.log("error: ", err);
 //       res.status(500).send("Server error");
-//       return;
+//     } else {
+//       res.status(200).send("DELETED");
 //     }
-//     console.log("user inserted");
-//     res.status(200).send("user inserted");
 //   });
 // });
-
+//c
+router.get("/", (req, res) => {
+  const userID = req.body.userID;
+  var sql = `SELECT userName,userPassword,userEmail FROM user WHERE userID = ${userID};`;
+  db.query(sql, function (err, data) {
+    if (err) {
+      console.log("read error", err);
+      res.status(500).send("server error");
+      return;
+    }
+    console.log("user status");
+    res.status(200).json(data);
+  });
+});
+router.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    req.session;
+  });
+  console.log(req.session);
+  res.send(alert("로그아웃 되었습니다")).redirect("/");
+});
 module.exports = router;
