@@ -16,7 +16,6 @@ router.get("/logout", (req, res) => {
   req.session.destroy(() => {
     req.session;
   });
-  console.log(req.session);
   res.send("로그아웃 되었습니다").redirect("/");
 });
 
