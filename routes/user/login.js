@@ -16,7 +16,7 @@ router.post("/", (req, res) => {
     console.log("already login");
   }
   //console.log(userEmail, userPassword);
-  const sql = `SELECT * FROM user WHERE userEmail='${userEmail}' AND userPassword = '${userPassword}'`;
+  const sql = `SELECT userID FROM user WHERE userEmail='${userEmail}' AND userPassword = '${userPassword}'`;
   db.query(sql, function (err, data) {
     if (err) {
       console.log(err);
@@ -24,15 +24,8 @@ router.post("/", (req, res) => {
       return;
     } else {
       if (data.length > 0) {
-        console.log(data.length);
-        req.session.userEmail = userEmail;
-        console.log(req.session);
-        // res.cookie("sessionID", req.session.userEmail, {
-        //   maxAge: 86400000,
-        //   httpOnly: true,
-        //   sameSite: false,
-        //   secure: true,
-        // });
+        console.log(data);
+        req.session.userID = data.userID;
         res.redirect("/");
       } else {
         res.status(400).send("이메일 혹은 비밀번호가 일치하지 않습니다");

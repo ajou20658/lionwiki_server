@@ -1,18 +1,19 @@
 const express = require("express");
 const session = require("express-session");
-const memstore = require("memorystore")(session);
+// const MySQLStore = require("express-mysql-session")(session);
+const MemoryStore = require("memorystore")(session);
 const cors = require("cors");
 const app = express();
 const api = require("./routes/api");
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 3001;
-// const store = new memstore({ checkPeriod: 60 * 1000 });
-// const sessionOBJ = {
-//   secret: process.env.SESSION_SECRET, //암호화 키 cmd 에서 set SESSION_SECRET="비밀번호 입력후 사용가능"
-//   resave: false,
-//   saveUninitialized: true,
-//   store: store,
-// };
+// const sessionStore = new MySQLStore({
+//   host: "localhost",
+//   user: "root",
+//   password: "mwy6ad010y**",
+//   database: "wikibbs",
+// });
+const sessionStore = new MemoryStore();
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
@@ -26,7 +27,9 @@ app.use(
     secret: process.env.SESSION_SECRET, //암호화 키 cmd 에서 set SESSION_SECRET="비밀번호 입력후 사용가능"
     resave: false,
     saveUninitialized: true,
+    store: sessionStore,
     cookie: { secure: false, sameSite: false },
+    userID: (req) => req.session.userID,
   })
 );
 app.use("/api", api);
@@ -38,7 +41,6 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  console.log(req.session);
   res.send("connected");
 });
 app.listen(PORT, () => {
