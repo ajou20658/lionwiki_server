@@ -24,8 +24,7 @@ router.post("/", (req, res) => {
       return;
     } else {
       if (data.length > 0) {
-        console.log(data);
-        req.session.userID = data.userID;
+        req.session.user = data[0].userID;
         res.redirect("/");
       } else {
         res.status(400).send("이메일 혹은 비밀번호가 일치하지 않습니다");

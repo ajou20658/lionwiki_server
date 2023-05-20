@@ -9,35 +9,23 @@ const db = mysql.createConnection({
 });
 router = express.Router();
 router.get("/", (req, res) => {
-  const userID = req.session.userID;
-  console.log(req.session);
-  console.log(req.session.userID);
-  const sid = userID ? userID.split("=")[1] : null;
-  if (!sid) {
-    res.status(401).send("Unauthorized");
-    return;
-  }
-  sessionStore.get(sid, (err, sessionData) => {
+  //const sid = req.headers.cookie.split("=");
+  const user = req.session.user;
+  const sql = `SELECT * FROM user WHERE userID = '${user}'`;
+  db.query(sql, function (err, data) {
     if (err) {
-      console.log("session error", err);
-      res.status(500).send("server error");
+      console.log(err);
+
+      res.status(500).send(err).redirect("/");
       return;
-    }
-    if (!sessionData || !sessionData.userID) {
-      res.status(401).send("Unauthorized");
-      return;
-    }
-    const userID = sessionData.userID;
-    var sql = `SELECT userName,userPassword,userEmail FROM user WHERE userEmail = ${userID};`;
-    db.query(sql, function (err, data) {
-      if (err) {
-        console.log("read error", err);
-        res.status(500).send("server error");
-        return;
+    } else {
+      if (data.length > 0) {
+        console.log(data);
+        // res.json(data);
+      } else {
+        res.status(400).send("이메일 혹은 비밀번호가 일치하지 않습니다");
       }
-      console.log("user status");
-      res.status(200).json(data);
-    });
+    }
   });
 });
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 // const MySQLStore = require("express-mysql-session")(session);
-const MemoryStore = require("memorystore")(session);
+const FileStore = require("session-file-store")(session);
 const cors = require("cors");
 const app = express();
 const api = require("./routes/api");
@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3001;
 //   password: "mwy6ad010y**",
 //   database: "wikibbs",
 // });
-const sessionStore = new MemoryStore();
+const sessionStore = new FileStore();
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
@@ -29,7 +29,6 @@ app.use(
     saveUninitialized: true,
     store: sessionStore,
     cookie: { secure: false, sameSite: false },
-    userID: (req) => req.session.userID,
   })
 );
 app.use("/api", api);
