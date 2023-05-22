@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
     } else {
       if (data.length > 0) {
         console.log(data);
-        // res.json(data);
+        res.json(data);
       } else {
         res.status(400).send("이메일 혹은 비밀번호가 일치하지 않습니다");
       }

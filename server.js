@@ -1,18 +1,13 @@
 const express = require("express");
 const session = require("express-session");
-// const MySQLStore = require("express-mysql-session")(session);
 const FileStore = require("session-file-store")(session);
 const cors = require("cors");
 const app = express();
 const api = require("./routes/api");
 const bodyParser = require("body-parser");
+const fs = require("fs");
 const PORT = process.env.PORT || 3001;
-// const sessionStore = new MySQLStore({
-//   host: "localhost",
-//   user: "root",
-//   password: "mwy6ad010y**",
-//   database: "wikibbs",
-// });
+
 const sessionStore = new FileStore();
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -41,6 +36,30 @@ app.use(
 
 app.get("/", (req, res) => {
   res.send("connected");
+});
+
+// HTTP 연결이 끊겼을 때 처리
+app.use((req, res, next) => {
+  // HTTP 연결이 끊겼을 때 처리
+  req.on("end", () => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+    sessionStore.destroy(req.sessionID, (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+  });
+  next();
+});
+process.on("SIGINT", () => {
+  const session_dir = "./sessions";
+  fs.readdirSync(session_dir).forEach((file) => {
+    fs.unlinkSync(`${session_dir}\\${file}`);
+  });
 });
 app.listen(PORT, () => {
   console.log(`Listening on:http://localhost:${PORT}`);

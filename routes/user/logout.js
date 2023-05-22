@@ -13,10 +13,15 @@ const sessionOBJ = {
 };
 router.use(session(sessionOBJ));
 router.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    req.session;
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("세션 종료 오류 발생");
+    } else {
+      res.clearCookie("connect.sid");
+      res.send("로그아웃 되었습니다").redirect("/");
+    }
   });
-  res.send("로그아웃 되었습니다").redirect("/");
 });
 
 module.exports = router;
