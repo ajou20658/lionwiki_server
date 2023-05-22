@@ -11,8 +11,7 @@ router = express.Router();
 
 router.get("/:title", (req, res) => {
   const bbsTitle = req.params.title;
-  const sql =
-    "SELECT * FROM doc_version WHERE Title = ? ORDER BY id DESC LIMIT 1";
+  const sql = "SELECT * FROM doc_version WHERE Title = ?";
   const values = [bbsTitle];
   console.log(bbsTitle);
   db.query(sql, values, function (err, data) {
@@ -25,10 +24,4 @@ router.get("/:title", (req, res) => {
     }
   });
 });
-
-router.patch("/deletebbs", (req, res) => {
-  const bbsID = req.body.bbsID;
-  var sql = `UPDATE bbs SET bbsAvailable = 0 WHERE userID=${bbsID};`;
-});
-
 module.exports = router;
