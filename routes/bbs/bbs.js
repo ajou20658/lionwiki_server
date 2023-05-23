@@ -12,7 +12,7 @@ router = express.Router();
 router.get("/:title", (req, res) => {
   const bbsTitle = req.params.title;
   const sql =
-    "SELECT * FROM doc_version WHERE Title = ? ORDER BY id DESC LIMIT 1";
+    "SELECT * FROM doc_version WHERE title = ? ORDER BY id DESC LIMIT 1";
   const values = [bbsTitle];
   console.log(bbsTitle);
   db.query(sql, values, function (err, data) {
