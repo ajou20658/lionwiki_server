@@ -4,7 +4,6 @@
 - api `http://localhost:3001`에서 오픈
 
   - db 연결을 위한 secret.json파일 구성
-
     - {
       "host": "localhost",
       "user": "사용자계정",
