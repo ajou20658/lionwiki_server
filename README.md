@@ -17,11 +17,13 @@
     - 영구설정 setx SESSION_SECRET="비밀번호"
   - /routes 폴더
     - /bbs 폴더
-      - /bbs
+      - 문서 조회
+      - 문서 작성
     - /user 폴더
       - 로그인
       - 로그아웃
       - 내 정보 확인
+      - 회원가입기능
     - api.js
       - bbs와 user api라우팅하는 위치
        
