@@ -9,21 +9,31 @@ const db = mysql.createConnection({
 });
 router = express.Router();
 
-router.post("/", (req, res) => {
-  const bbsTitle = req.body.title;
-  const userID = req.body.user;
-  const bbsContent = req.body.content;
-  const values = [bbsTitle, userID, 1, new Date(), bbsContent];
+router.post("/:title", (req, res) => {
+  const title = req.params.title;
+  const id = req.session.user;
+  const body = req.body.content;
+  const values = [1, title, body, new Date(), id];
+
+  //
+  var sql2 = "INSERT INTO bbs(title) VALUES(?)";
+  db.query(sql2, [title], function (err, result) {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Server error");
+    } else {
+      console.log("bbs inserted");
+    }
+  });
   var sql =
-    "INSERT INTO bbs(bbsTitle,userID,bbsAvailable,bbsDate,bbsContent) VALUES(?,?,?,?,?)";
+    "INSERT INTO doc_version(1,title,body,created_at,user) VALUES(?,?,?,?,?)";
   db.query(sql, values, function (err, result) {
     if (err) {
       console.log("error: ", err);
       res.status(500).send("Server error");
-      return;
     }
-    console.log("bbs inserted");
-    res.status(200).send("bbs inserted");
+    console.log("doc_version inserted");
+    res.status(200).send("doc_version inserted");
   });
 }); //create
 module.exports = router;

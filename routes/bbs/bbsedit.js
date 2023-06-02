@@ -9,17 +9,21 @@ const db = mysql.createConnection({
 });
 router = express.Router();
 
-router.patch("/", (req, res) => {
-  const { bbsID, bbsTitle, userID, bbsContent } = req.body;
-  var sql = `UPDATE bbs SET bbsTitle = ${bbsTitle} AND userID = ${userID} AND bbsContent = ${bbsContent} WHERE bbsID=${bbsID};`;
-  db.query(sql, function (err, data) {
+router.post("/:title", (req, res) => {
+  const title = req.params.title;
+  const id = req.session.user;
+  const body = req.body.content;
+  const values = [1, title, body, new Date(), id];
+  var sql =
+    "INSERT INTO doc_version(1,title,body,created_at,user) VALUES(?,?,?,?,?)";
+  db.query(sql, values, function (err, result) {
     if (err) {
-      console.log("patch err");
-      res.status(500);
-    } else {
-      console.log(data.json());
-      res.status(200);
+      console.log("error: ", err);
+      res.status(500).send("Server error");
+      return;
     }
+    console.log("bbs inserted");
+    res.status(200).send("bbs inserted");
   });
-});
+}); //create
 module.exports = router;

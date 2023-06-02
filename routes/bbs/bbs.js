@@ -12,13 +12,13 @@ router = express.Router();
 router.get("/:title", (req, res) => {
   const bbsTitle = req.params.title;
   const sql =
-    "SELECT * FROM doc_version WHERE title = ? ORDER BY id DESC LIMIT 1";
+    "SELECT * FROM doc_version WHERE title = ? AND bbsAvailable = 1 ORDER BY id DESC LIMIT 1";
   const values = [bbsTitle];
   console.log(bbsTitle);
   db.query(sql, values, function (err, data) {
     if (err) {
       console.error(err);
-      res.status(500).send("Server Error");
+      res.status(500).json({ error: "db empty" });
     } else {
       console.log(data);
       res.json(data);

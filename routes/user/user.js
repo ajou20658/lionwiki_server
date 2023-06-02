@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
         console.log(data);
         res.json(data);
       } else {
-        res.status(400).send("이메일 혹은 비밀번호가 일치하지 않습니다");
+        res.status(400).json({ message: "세션이 종료되었습니다" });
       }
     }
   });

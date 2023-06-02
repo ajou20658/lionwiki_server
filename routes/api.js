@@ -1,4 +1,5 @@
 const bbs = require("./bbs/bbs");
+const post = require("./bbs/bbspost");
 const user = require("./user/user");
 const login = require("./user/login");
 const signup = require("./user/signup");
@@ -7,6 +8,7 @@ const express = require("express");
 
 router = express.Router();
 router.use("/bbs", bbs);
+router.use("/post", post);
 router.use("/login", login);
 router.use("/signup", signup);
 router.use("/history", history);
@@ -15,7 +17,7 @@ const Auth = (req, res, next) => {
   if (user != undefined) {
     next();
   } else {
-    res.send("권한이 없습니다").redirect("/");
+    res.json({ error: "권한이 없습니다" }).redirect("/");
   }
 };
 router.use("/user", Auth, user); //세션부여

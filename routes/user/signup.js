@@ -17,15 +17,15 @@ router.post("/", (req, res) => {
   const values = [userName, userPassword, userEmail];
   var sql = "INSERT INTO user(userName,userPassword,userEmail) VALUES(?,?,?);";
   db.query(sql, values, function (err, result) {
-    res.header("Access-Control-Allow-Origin", "*");
     if (err) {
-      console.log("error: ", err);
-      res.status(500).send("Server error");
+      console.log("error: same data user exists");
+      res.status(500).json({ error: "Already exist" });
       return;
     }
 
     console.log("user inserted");
-    res.status(200).send("user inserted");
+    res.status(200).json({ message: "user inserted" });
+    res.redirect("/login");
   });
 });
 
