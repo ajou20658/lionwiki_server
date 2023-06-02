@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 
 const sessionStore = new FileStore();
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://10.168.85.52:3000",
   credentials: true,
 };
 app.use(cors(corsOptions));
