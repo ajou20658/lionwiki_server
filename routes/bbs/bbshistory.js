@@ -11,16 +11,20 @@ router = express.Router();
 
 router.get("/:title", (req, res) => {
   const bbsTitle = req.params.title;
-  const sql = "SELECT * FROM doc_version WHERE Title = ?";
+  const sql = "SELECT * FROM doc_version WHERE Title = ? AND bbsAvailable = 1";
   const values = [bbsTitle];
   console.log(bbsTitle);
-  db.query(sql, values, function (err, data) {
+  db.query(sql, values, function (err, result) {
     if (err) {
       console.error(err);
       res.status(500).send("Server Error");
     } else {
-      console.log(data);
-      res.json(data);
+      console.log(result);
+      var dataList =[];
+	    for(var  data of result){
+		    dataList.push(data);
+	    };
+	res.json(dataList);
     }
   });
 });

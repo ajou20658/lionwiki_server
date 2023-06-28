@@ -9,13 +9,15 @@ const db = mysql.createConnection({
 });
 router = express.Router();
 
-router.get("/:title/:id", (req, res) => {
+router.get("/:title", (req, res) => {
   const bbsTitle = req.params.title;
-  const bbsId = req.params.id;
+  const bbsId = req.query.id;
+  console.log(req.query);
   let sql = "SELECT * FROM doc_version WHERE title = ? AND bbsAvailable = 1 ORDER BY id DESC LIMIT 1";
-  let values = [bbsTitle,bbsId];
-  if (bbsId){
-	  sql = "SELECT *FROM doc_version WHERE title =? AND bbsAvailable = 1 AND id = ?";
+  let values = [bbsTitle];
+  if(bbsId){
+  	sql = "SELECT * FROM doc_version WHERE title = ? AND bbsAvailable =1 AND id = ? ORDER BY id DESC LIMIT 1";
+	values.push(bbsId);
   }
   console.log(sql);
   db.query(sql, values, function (err, data) {
@@ -28,6 +30,7 @@ router.get("/:title/:id", (req, res) => {
     }
   });
 });
+
 router.patch("/deletebbs", (req, res) => {
   const bbsID = req.body.bbsID;
   var sql = `UPDATE bbs SET bbsAvailable = 0 WHERE userID=${bbsID};`;

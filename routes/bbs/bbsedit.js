@@ -12,16 +12,18 @@ router = express.Router();
 router.post("/:title", (req, res) => {
   const title = req.params.title;
   const id = req.session.user;
-  const body = req.body.content;
-  const values = [1, title, body, new Date(), id];
+  const body = req.body.body;
+  const values = [1, title, body, id];
+  console.log(req.body);
   var sql =
-    "INSERT INTO doc_version(1,title,body,created_at,user) VALUES(?,?,?,?,?)";
+    "INSERT INTO doc_version(bbsAvailable,title,body,user) VALUES(?,?,?,?)";
   db.query(sql, values, function (err, result) {
     if (err) {
       console.log("error: ", err);
       res.status(500).send("Server error");
       return;
     }
+	  console.log(result);
     console.log("bbs inserted");
     res.status(200).send("bbs inserted");
   });

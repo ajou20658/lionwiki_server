@@ -6,17 +6,17 @@ const app = express();
 const api = require("./routes/api");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const PORT = process.env.PORT || 3001;
-
-const sessionStore = new FileStore();
+const PORT = 3001;
+const path = require("path");
+const sessionStore = new FileStore({
+	path: path.join(__dirname,"sessions"),
+});
 const corsOptions = {
-  origin: "http://10.168.65.217:3000",
-  credentials: true,
+	origin:"*",
 };
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET, //암호화 키 cmd 에서 set SESSION_SECRET="비밀번호 입력후 사용가능"
@@ -56,9 +56,9 @@ app.use((req, res, next) => {
   next();
 });
 process.on("SIGINT", () => {
-  const session_dir = "./sessions";
+  const session_dir = path.join(__dirname,"sessions");
   fs.readdirSync(session_dir).forEach((file) => {
-    fs.unlinkSync(`${session_dir}\\${file}`);
+    fs.unlinkSync(path.join(session_dir,file));
   });
 });
 app.listen(PORT, () => {

@@ -12,8 +12,10 @@ router = express.Router();
 router.post("/", (req, res) => {
   const { userEmail, userPassword } = req.body;
 
-  if (req.session.userEmail != undefined) {
-    console.log("already login");
+  if (req.session.user != undefined) {
+    	req.status(401).json({"error":"Already login"});
+	console.log("already login");
+	return;
   }
   //console.log(userEmail, userPassword);
   const sql = `SELECT userID FROM user WHERE userEmail='${userEmail}' AND userPassword = '${userPassword}'`;
